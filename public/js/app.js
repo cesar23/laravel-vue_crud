@@ -29121,16 +29121,61 @@ return /******/ (function(modules) { // webpackBootstrap
 			},
 			data:{
 				keeps:[],
+                //--paginacion
+                'pagination' : {
+                            'total'         : 0,
+                            'current_page'  : 0,
+                            'per_page'      : 0,
+                            'last_page'     : 0,
+                            'from'          : 0,
+                            'to'            : 0
+                        },
+
 				newKeep:'',
 				fillKeep:{'id':'','keep':''},
 				errors: []
 			},
+            computed:{
+			    isActived:function(){
+			        return this.pagination.current_page;
+                },
+                pagesNumber:function(){
+			        //si no tenemos nada en la propiedad hasta
+			        if(!this.pagination.to){
+			            return [];
+                    }
+
+                    //from = desde
+                    var from = this.pagination.current_page -2;//TODO offset
+                    if(from<1){
+                        from =1;
+                    }
+
+                    //controloas hasta =to
+                     var to=from +(2*2); //TODO
+                    //controlamos que no se pase de la ultima pagina
+                    if(to>=this.pagination.last_page){
+                        to=this.pagination.last_page;
+                    }
+
+                    //calculamos la numeracion exacta
+                    var pagesArray=[];
+                    while(from <=to){
+                        pagesArray.push(from);
+                        from++;
+                    }
+                    return pagesArray;
+                }
+
+            },
 
 			methods:{
-				getKeeps: function(){
-					var urlKeeps='tasks';
+				getKeeps: function(page){
+					var urlKeeps='tasks?page='+page;
 					axios.get(urlKeeps).then(response=>{
-						this.keeps=response.data;
+						//this.keeps=response.data;
+						this.keeps=response.data.tasks.data;
+                        this.pagination=response.data.pagination;//con esto llenamos las variables para manejar la pagiacion
 					});
 				},
 
@@ -29143,7 +29188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
                     var url='tasks/'+id;
                     console.log(this.fillKeep);
-
+                    // url,this.fillKeep = lo paso asi por que es un objeto  this.fillKeep= {id:45 keep: ""}
                     axios.put(url,this.fillKeep).then(response=>{
                         this.getKeeps();
                         this.fillKeep={'id':'','keep':''},
@@ -29175,6 +29220,11 @@ return /******/ (function(modules) { // webpackBootstrap
                     }).catch( error=>{
                     	this.errors = error.response.data;
 					});
+                },
+
+                changePage: function(page){
+				    this.pagination.current_page=page;
+				    this.getKeeps(page);
                 }
 
 			}

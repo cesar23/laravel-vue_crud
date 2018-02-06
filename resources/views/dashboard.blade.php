@@ -41,27 +41,30 @@
                 </tbody>
             </table>
 
-            {{--<nav>--}}
-                {{--<ul class="pagination">--}}
-                    {{--<li v-if="pagination.current_page > 1">--}}
-                        {{--<a href="#" @click.prevent="changePage(pagination.current_page - 1)">--}}
-                            {{--<span>Atras</span>--}}
-                        {{--</a>--}}
-                    {{--</li>--}}
+            <!-- Paginacion -->
 
-                    {{--<li v-for="page in pagesNumber" v-bind:class="[ page == isActived ? 'active' : '']">--}}
-                        {{--<a href="#" @click.prevent="changePage(page)">--}}
-                            {{--@{{ page }}--}}
-                        {{--</a>--}}
-                    {{--</li>--}}
+            <nav>
+                <ul class="pagination">
 
-                    {{--<li v-if="pagination.current_page < pagination.last_page">--}}
-                        {{--<a href="#" @click.prevent="changePage(pagination.current_page + 1)">--}}
-                            {{--<span>Siguiente</span>--}}
-                        {{--</a>--}}
-                    {{--</li>--}}
-                {{--</ul>--}}
-            {{--</nav>--}}
+                    <li class="page-item" v-if="pagination.current_page > 1">
+                        <a href="#" class="page-link" @click.prevent="changePage(pagination.current_page - 1)">
+                            <span>Atras</span>
+                        </a>
+                    </li>
+
+                    <li class="page-item" v-for="page in pagesNumber" v-bind:class="[ page == isActived ? 'active' : '']">
+                        <a href="#" class="page-link" @click.prevent="changePage(page)">
+                            @{{ page }}
+                        </a>
+                    </li>
+
+                    <li class="page-item" v-if="pagination.current_page < pagination.last_page">
+                        <a href="#" class="page-link" @click.prevent="changePage(pagination.current_page + 1)">
+                            <span>Siguiente</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
             @include('create')
             @include('edit')
