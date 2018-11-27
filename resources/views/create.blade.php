@@ -1,4 +1,4 @@
-<form method="POST" v-on:submit.prevent="createKeep" >
+<form method="POST" v-on:submit.prevent="createKeep" > <!--  con esto le  decimos que  dispare al metodo createKeep y con submit.prevent para que al presionar guardar no se refresque-->
     <div class="modal fade" id="create">
         <div class="modal-dialog">
             <div class="modal-content">

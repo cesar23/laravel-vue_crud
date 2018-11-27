@@ -15,4 +15,6 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
+//-aqui dice que no use los metodos de la ruta ('show', 'create', 'edit')
 Route::resource('tasks', 'TaskController', ['except' => 'show', 'create', 'edit']);
+Route::get('tasks/peru', 'TaskController@peru');

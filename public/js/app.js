@@ -29115,9 +29115,9 @@ return /******/ (function(modules) { // webpackBootstrap
 //# sourceMappingURL=axios.map
 
 		new Vue({
-			el: '#crud',
+			el: '#crud',// es el ide que se asigna  a la vista que estara en la plantilla dashborad
 			created: function(){
-				this.getKeeps();
+				this.getKeeps();//llamamos a la funcion al cargar
 			},
 			data:{
 				keeps:[],
@@ -29131,9 +29131,9 @@ return /******/ (function(modules) { // webpackBootstrap
                             'to'            : 0
                         },
 
-				newKeep:'',
+				newKeep:'', //variable se seutiliza en el formulario como v-model
 				fillKeep:{'id':'','keep':''},
-				errors: []
+				errors: []//variable para  almacenar los errores
 			},
             computed:{
 			    isActived:function(){
@@ -29174,7 +29174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					var urlKeeps='tasks?page='+page;
 					axios.get(urlKeeps).then(response=>{
 						//this.keeps=response.data;
-						this.keeps=response.data.tasks.data;
+						this.keeps=response.data.tasks.data; //cogemos  el resultado y lo almacenamos en la variable kkeps (para  luego usarlo en la  vista)
                         this.pagination=response.data.pagination;//con esto llenamos las variables para manejar la pagiacion
 					});
 				},
@@ -29202,22 +29202,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
                 deleteKeep: function(keep){
                     var url='tasks/'+keep.id;
-                    axios.put(url).then(response=>{
+                    //axios.put(url).then(response=>{
+                    axios.delete(url).then(response=>{
                         this.getKeeps();
                         toastr.success('Eliminado correctamente');
                     });
                 },
+                // metodo que  se llama  al presionar guardar
                 createKeep: function(keep){
                     var url='tasks';
                     axios.post(url,{
-                    	keep:this.newKeep
-					}).then(response=>{
+                    	keep:this.newKeep //mandamos por post la caja de texto
+
+					}).then(response=>{ //Sino hay  ningun error entra  aqui
                         this.getKeeps();
                         this.newKeep='';
                         this.errors=[];
-                        $('#create').modal('hide');
+                        $('#create').modal('hide');//ocultamos el modal
                         toastr.success('Nueva tarea  creada con exito');
-                    }).catch( error=>{
+                    }).catch( error=>{//Sino hay  error entra  aqui
                     	this.errors = error.response.data;
 					});
                 },

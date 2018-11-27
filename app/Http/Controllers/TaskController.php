@@ -27,6 +27,21 @@ class TaskController extends Controller
             'tasks' => $tasks
         ];
     }
+    public function peru(Request $request)
+    {
+        $tasks = Task::orderBy('id', 'DESC')->paginate(2);
+        return [
+            'pagination' => [
+                'total'         => $tasks->total(),
+                'current_page'  => $tasks->currentPage(),
+                'per_page'      => $tasks->perPage(),
+                'last_page'     => $tasks->lastPage(),
+                'from'          => $tasks->firstItem(),//primer elemto
+                'to'            => $tasks->lastItem(),//ultimo elemento
+            ],
+            'tasks' => $tasks
+        ];
+    }
 
 
     /**
